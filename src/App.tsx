@@ -169,7 +169,7 @@ export default function App() {
                 <div className="bg-white p-4 rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] max-w-md mx-auto relative transform hover:rotate-1 transition-transform duration-500">
                   <div className="relative rounded-[2.5rem] overflow-hidden aspect-[5/3] shadow-inner">
                     <img 
-                      src="/sim.jpg" 
+                      src="https://i.ibb.co/jPYnRPVK/sim.jpg" 
                       alt="Prato Saudável" 
                       className="w-full h-full object-cover"
                       referrerPolicy="no-referrer"
@@ -215,7 +215,7 @@ export default function App() {
             {/* Central Image - Using the user provided image */}
             <div className="relative z-20 w-64 h-64 md:w-80 md:h-80">
               <img 
-                src="mulher.jpg" 
+                src="https://i.ibb.co/gFZsrhzW/Captura-de-Tela-2026-03-27-a-s-13-16-44.png" 
                 alt="Ciclo Vicioso - Mulher Cansada" 
                 className="w-full h-full rounded-full object-cover shadow-2xl border-8 border-white" 
                 referrerPolicy="no-referrer" 
@@ -409,7 +409,7 @@ export default function App() {
             <div className="relative">
               <div className="aspect-[9/16] max-w-[320px] mx-auto bg-slate-800 rounded-[3rem] border-[10px] border-slate-700 shadow-2xl overflow-hidden relative group">
                 <img 
-                  src="/receita.png" 
+                  src="https://i.ibb.co/ymRZzGNF/receita.png" 
                   className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" 
                   alt="Marmitas da Semana TikTok"
                   onError={(e) => {
