@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { 
   CheckCircle2, 
   Timer, 
@@ -36,11 +36,59 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [showExitPopup, setShowExitPopup] = useState(false);
+  const navigatingRef = useRef(false);
+
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    // Exit Intent Logic
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 0 && !navigatingRef.current) {
+        setShowExitPopup(true);
+      }
+    };
+
+    // Back Redirect Logic
+    window.history.pushState(null, "", window.location.href);
+    const handlePopState = () => {
+      if (!navigatingRef.current) {
+        // Only show popup if it's not already open
+        setShowExitPopup(true);
+        window.history.pushState(null, "", window.location.href);
+      }
+    };
+
+    const handleLinkClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const anchor = target.closest('a');
+      if (anchor && anchor.href && anchor.href.includes('pay.cakto.com.br')) {
+        navigatingRef.current = true;
+        // Reset after a short delay in case navigation is cancelled or slow
+        setTimeout(() => {
+          navigatingRef.current = false;
+        }, 2000);
+      }
+    };
+
+    document.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener('popstate', handlePopState);
+    document.addEventListener('click', handleLinkClick);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('popstate', handlePopState);
+      document.removeEventListener('click', handleLinkClick);
+    };
   }, []);
 
   const recipes = [
@@ -87,6 +135,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-teal-50">
+      {/* Scroll Progress Bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1.5 bg-[#00B5A5] origin-left z-[100]"
+        style={{ scaleX }}
+      />
+
       {/* Top Banner */}
       <div className="bg-[#00B5A5] text-white py-2 text-center text-xs md:text-sm font-bold px-4">
         🔥 Oferta Exclusiva: 75% de Desconto Somente Hoje!
@@ -118,31 +172,57 @@ export default function App() {
       </nav>
 
       {/* Hero Section */}
-      <header className="relative pt-12 pb-24 px-4">
+      <header className="relative pt-12 pb-24 px-4 overflow-hidden">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             className="z-10"
           >
-            <div className="inline-flex items-center gap-2 bg-[#e6f7f6] text-[#00B5A5] px-4 py-2 rounded-full text-sm font-black mb-6 uppercase tracking-tighter">
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="inline-flex items-center gap-2 bg-[#e6f7f6] text-[#00B5A5] px-4 py-2 rounded-full text-sm font-black mb-6 uppercase tracking-tighter border border-teal-100 shadow-sm"
+            >
               <Star className="w-4 h-4 fill-current" />
               Receitas Saudáveis para quem quer praticidade
-            </div>
-            <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-6 leading-[1.1]">
+            </motion.div>
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="text-5xl md:text-7xl font-black text-slate-900 mb-6 leading-[1.1]"
+            >
               75 Receitas Fitness <br />
               <span className="text-[#00B5A5]">Práticas e Econômicas</span>
-            </h1>
-            <p className="text-xl text-slate-600 mb-10 leading-relaxed max-w-xl">
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="text-xl text-slate-600 mb-10 leading-relaxed max-w-xl"
+            >
               Seu Guia Completo para Secar ou Ganhar Massa Gastando Pouco! O método testado para quem não tem tempo de cozinhar.
-            </p>
+            </motion.p>
             
-            <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <a href="#oferta" className="bg-[#F18A51] text-white px-10 py-5 rounded-2xl font-black text-xl shadow-2xl shadow-orange-200 hover:scale-105 transition-all flex items-center justify-center gap-3 group">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+              className="flex flex-col sm:flex-row gap-4 mb-12"
+            >
+              <motion.a 
+                href="#oferta" 
+                whileHover={{ scale: 1.05, y: -5 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-[#F18A51] text-white px-10 py-5 rounded-2xl font-black text-xl shadow-2xl shadow-orange-200 hover:shadow-orange-300 transition-all flex items-center justify-center gap-3 group"
+              >
                 QUERO AS RECEITAS!
                 <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-              </a>
-            </div>
+              </motion.a>
+            </motion.div>
 
             <div className="flex items-center gap-6">
               <div className="flex -space-x-3">
@@ -161,8 +241,23 @@ export default function App() {
 
             <div className="relative">
               <motion.div 
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+                animate={{ 
+                  opacity: 1, 
+                  scale: 1, 
+                  rotate: 0,
+                  y: [0, -15, 0]
+                }}
+                transition={{ 
+                  opacity: { duration: 0.8 },
+                  scale: { duration: 0.8 },
+                  rotate: { duration: 0.8 },
+                  y: { 
+                    duration: 4, 
+                    repeat: Infinity, 
+                    ease: "easeInOut" 
+                  }
+                }}
                 className="relative z-10"
               >
                 {/* The "Sim" Card from reference */}
@@ -204,12 +299,17 @@ export default function App() {
       {/* Ciclo Vicioso Section */}
       <section id="metodo" className="py-24 bg-[#F8F8F8] px-4 relative overflow-hidden">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
               Se hoje você vive <br />
               esse <span className="text-[#F18A51]">ciclo vicioso:</span>
             </h2>
-          </div>
+          </motion.div>
           
           <div className="relative flex flex-col items-center justify-center min-h-[650px] mb-12">
             {/* Central Image - Using the user provided image */}
@@ -453,7 +553,11 @@ export default function App() {
             {recipes.map((recipe, i) => (
               <motion.div 
                 key={i}
-                whileHover={{ y: -5 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: i * 0.1 }}
+                whileHover={{ y: -10, scale: 1.02 }}
                 className="bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-50 group flex flex-col"
               >
                 <div className="relative overflow-hidden aspect-[4/3]">
@@ -524,12 +628,18 @@ export default function App() {
                     "Pilhas de louça para lavar todos os dias",
                     "Enjoada de comer sempre a mesma comida"
                   ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-5">
+                    <motion.li 
+                      key={i}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      className="flex items-start gap-5"
+                    >
                       <div className="bg-[#FF5722] rounded-full p-1.5 mt-1 shrink-0 shadow-md">
                         <X className="w-4 h-4 text-white stroke-[4px]" />
                       </div>
                       <span className="text-slate-600 font-bold text-xl leading-tight">{item}</span>
-                    </li>
+                    </motion.li>
                   ))}
                 </ul>
               </div>
@@ -553,19 +663,30 @@ export default function App() {
                     "Cozinha sempre limpa e organizada",
                     "Cada dia come um prato diferente"
                   ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-5">
+                    <motion.li 
+                      key={i}
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      className="flex items-start gap-5"
+                    >
                       <div className="bg-[#00A859] rounded-full p-1.5 mt-1 shrink-0 shadow-md">
                         <CheckCircle2 className="w-4 h-4 text-white" />
                       </div>
                       <span className="text-slate-900 font-black text-xl leading-tight">{item}</span>
-                    </li>
+                    </motion.li>
                   ))}
-                  <li className="flex items-start gap-5">
+                  <motion.li 
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.6 }}
+                    className="flex items-start gap-5"
+                  >
                     <div className="bg-[#00A859] rounded-full p-1.5 mt-1 shrink-0 shadow-md">
                       <CheckCircle2 className="w-4 h-4 text-white" />
                     </div>
                     <span className="text-[#00A859] font-black text-xl leading-tight">Mais tempo livre para você!</span>
-                  </li>
+                  </motion.li>
                 </ul>
               </div>
             </motion.div>
@@ -581,11 +702,14 @@ export default function App() {
           </h2>
 
           <div className="space-y-6">
-            {bonuses.map((bonus) => (
+            {bonuses.map((bonus, i) => (
               <motion.div 
                 key={bonus.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.2 }}
+                whileHover={{ scale: 1.02, x: 10 }}
                 className="bg-[#FF5722] rounded-3xl p-4 md:p-6 shadow-xl relative group flex flex-col md:flex-row items-center gap-6"
               >
                 <div className="w-24 h-24 md:w-32 md:h-32 bg-white rounded-2xl overflow-hidden shrink-0 shadow-lg border-4 border-white/20">
@@ -674,9 +798,14 @@ export default function App() {
                 >
                   <p className="text-6xl font-black text-[#00B5A5] mb-6">R$ 19,90</p>
                 </motion.div>
-                <button className="w-full bg-[#00B5A5] hover:bg-[#009e91] text-white py-5 rounded-2xl font-black text-xl shadow-lg shadow-teal-100 transition-all uppercase transform active:scale-95">
+                <motion.a 
+                  href="https://pay.cakto.com.br/3fciqct_812449"
+                  whileHover={{ scale: 1.05, backgroundColor: "#009e91" }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-full bg-[#00B5A5] text-white py-5 rounded-2xl font-black text-xl shadow-lg shadow-teal-100 transition-all uppercase flex items-center justify-center"
+                >
                   Comprar Agora!
-                </button>
+                </motion.a>
               </div>
             </motion.div>
 
@@ -735,9 +864,14 @@ export default function App() {
                 >
                   <p className="text-7xl font-black text-[#F18A51] mb-6 drop-shadow-md">R$ 27,90</p>
                 </motion.div>
-                <button className="w-full bg-[#F18A51] hover:bg-[#d97a45] text-white py-5 rounded-2xl font-black text-xl shadow-xl shadow-orange-200 transition-all uppercase transform active:scale-95">
+                <motion.a 
+                  href="https://pay.cakto.com.br/7gyurer"
+                  whileHover={{ scale: 1.05, backgroundColor: "#d97a45" }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-full bg-[#F18A51] text-white py-5 rounded-2xl font-black text-xl shadow-xl shadow-orange-200 transition-all uppercase flex items-center justify-center"
+                >
                   Levar Tudo!
-                </button>
+                </motion.a>
               </div>
             </motion.div>
           </div>
@@ -775,6 +909,81 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      {/* Exit Intent Popup */}
+      <AnimatePresence>
+        {showExitPopup && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-sm"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              className="bg-white rounded-[3rem] p-8 md:p-12 max-w-2xl w-full relative overflow-hidden shadow-2xl"
+            >
+              <button 
+                onClick={() => setShowExitPopup(false)}
+                className="absolute top-6 right-6 text-slate-400 hover:text-slate-600 transition-colors"
+              >
+                <X className="w-8 h-8" />
+              </button>
+
+              <div className="text-center">
+                <div className="inline-flex items-center gap-2 bg-red-50 text-red-500 px-4 py-2 rounded-full text-sm font-black mb-6 uppercase tracking-widest">
+                  <Flame className="w-4 h-4 fill-current" />
+                  ESPERA! NÃO VÁ EMBORA AINDA...
+                </div>
+                
+                <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
+                  Você vai mesmo continuar <br />
+                  <span className="text-red-500">gastando tempo e dinheiro</span> <br />
+                  cozinhando todo dia?
+                </h2>
+
+                <p className="text-xl text-slate-600 mb-10 leading-relaxed">
+                  Liberamos uma <span className="font-black text-slate-900">condição única e secreta</span> para você não desistir da sua saúde hoje. 
+                  Sua última chance de ter o método completo por um preço ridículo.
+                </p>
+
+                <div className="bg-slate-50 rounded-3xl p-8 mb-10 border-2 border-dashed border-slate-200">
+                  <p className="text-slate-500 font-bold mb-2 uppercase tracking-widest text-sm">OFERTA DE DESPEDIDA</p>
+                  <div className="flex items-center justify-center gap-4 mb-2">
+                    <span className="text-slate-400 line-through text-2xl font-bold">R$ 97,00</span>
+                    <ArrowRight className="text-slate-300" />
+                    <span className="text-5xl md:text-7xl font-black text-[#00A859]">R$ 14,90</span>
+                  </div>
+                  <p className="text-[#00A859] font-black">PAGAMENTO ÚNICO • ACESSO IMEDIATO</p>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  <motion.a 
+                    href="https://pay.cakto.com.br/sdrs3to"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-[#00A859] text-white py-6 rounded-2xl font-black text-2xl shadow-xl shadow-green-100 transition-all uppercase flex items-center justify-center gap-3"
+                  >
+                    SIM! QUERO ESSA OFERTA AGORA
+                    <ArrowRight className="w-6 h-6" />
+                  </motion.a>
+                  <button 
+                    onClick={() => setShowExitPopup(false)}
+                    className="text-slate-400 font-bold hover:text-slate-600 transition-colors underline underline-offset-4"
+                  >
+                    Não, prefiro continuar perdendo tempo na cozinha
+                  </button>
+                </div>
+              </div>
+
+              {/* Decorative elements */}
+              <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-teal-50 rounded-full blur-3xl opacity-50 -z-10"></div>
+              <div className="absolute -top-12 -right-12 w-48 h-48 bg-orange-50 rounded-full blur-3xl opacity-50 -z-10"></div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Footer */}
       <footer className="bg-slate-900 text-white py-20 px-4">
