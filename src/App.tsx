@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { 
   CheckCircle2, 
@@ -6,6 +6,8 @@ import {
   UtensilsCrossed, 
   ShoppingBasket, 
   TrendingDown, 
+  TrendingUp,
+  Wallet,
   Gift,
   Flame, 
   Clock, 
@@ -36,8 +38,6 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [showExitPopup, setShowExitPopup] = useState(false);
-  const navigatingRef = useRef(false);
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -50,44 +50,8 @@ export default function App() {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
 
-    // Exit Intent Logic
-    const handleMouseLeave = (e: MouseEvent) => {
-      if (e.clientY <= 0 && !navigatingRef.current) {
-        setShowExitPopup(true);
-      }
-    };
-
-    // Back Redirect Logic
-    window.history.pushState(null, "", window.location.href);
-    const handlePopState = () => {
-      if (!navigatingRef.current) {
-        // Only show popup if it's not already open
-        setShowExitPopup(true);
-        window.history.pushState(null, "", window.location.href);
-      }
-    };
-
-    const handleLinkClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const anchor = target.closest('a');
-      if (anchor && anchor.href && anchor.href.includes('pay.cakto.com.br')) {
-        navigatingRef.current = true;
-        // Reset after a short delay in case navigation is cancelled or slow
-        setTimeout(() => {
-          navigatingRef.current = false;
-        }, 2000);
-      }
-    };
-
-    document.addEventListener('mouseleave', handleMouseLeave);
-    window.addEventListener('popstate', handlePopState);
-    document.addEventListener('click', handleLinkClick);
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      document.removeEventListener('mouseleave', handleMouseLeave);
-      window.removeEventListener('popstate', handlePopState);
-      document.removeEventListener('click', handleLinkClick);
     };
   }, []);
 
@@ -467,6 +431,109 @@ export default function App() {
                 <ShoppingBasket className="w-6 h-6" />
                 QUERO AS RECEITAS!
               </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* High-Impact Delivery Trap Section */}
+      <section className="py-24 px-4 bg-slate-900 text-white overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-red-600/10 rounded-full blur-[120px] -mr-64 -mt-64"></div>
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#00B5A5]/10 rounded-full blur-[120px] -ml-64 -mb-64"></div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+            {/* Left Side: Impactful Image */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="relative rounded-[3rem] overflow-hidden shadow-[0_0_50px_rgba(220,38,38,0.2)] border-2 border-white/10">
+                <img 
+                  src="https://i.ibb.co/chGFzYy4/como-ser-entregador-ifood.png" 
+                  alt="Entregador iFood" 
+                  className="w-full h-auto object-cover scale-105"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-60"></div>
+              </div>
+              
+              {/* Floating Warning Badge */}
+              <motion.div 
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -bottom-8 -right-8 bg-red-600 text-white p-8 rounded-[2.5rem] shadow-2xl border-4 border-slate-900 z-20"
+              >
+                <p className="text-xs font-black uppercase tracking-[0.2em] mb-1 opacity-80">Prejuízo Mensal</p>
+                <p className="text-4xl font-black tracking-tighter">R$ 480,00</p>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Side: Impactful Content */}
+            <div className="flex flex-col justify-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <span className="inline-block bg-red-600/20 text-red-500 px-4 py-2 rounded-full text-xs font-black mb-6 uppercase tracking-widest border border-red-500/30">
+                  A Armadilha Invisível
+                </span>
+                <h2 className="text-5xl md:text-7xl font-black mb-8 leading-[0.95] tracking-tighter text-red-600">
+                  PARE DE JOGAR <br />
+                  SEU DINHEIRO <br />
+                  <span className="text-white">NO LIXO!</span>
+                </h2>
+                <p className="text-xl text-slate-400 mb-12 leading-relaxed font-medium max-w-lg">
+                  O hábito de pedir delivery é o maior ralo do seu orçamento. Você trabalha duro para ver seu dinheiro sumir em taxas e comida cara.
+                </p>
+
+                <div className="grid gap-6 mb-12">
+                  <div className="flex items-center justify-between p-8 bg-white/5 rounded-[2rem] border border-white/10 hover:bg-white/10 transition-colors group">
+                    <div>
+                      <p className="text-slate-500 text-xs font-black uppercase tracking-widest mb-1">Cenário Comum</p>
+                      <h4 className="text-2xl font-black text-white">Delivery (iFood)</h4>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-red-500 text-3xl font-black">R$ 480,00</p>
+                      <p className="text-slate-500 text-xs font-bold">por mês</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between p-8 bg-[#00B5A5]/10 rounded-[2rem] border border-[#00B5A5]/30 hover:bg-[#00B5A5]/20 transition-colors">
+                    <div>
+                      <p className="text-teal-500 text-xs font-black uppercase tracking-widest mb-1">Sua Nova Rotina</p>
+                      <h4 className="text-2xl font-black text-white">75 Receitas Fit</h4>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-[#00B5A5] text-3xl font-black">R$ 27,90</p>
+                      <p className="text-slate-500 text-xs font-bold">investimento único</p>
+                    </div>
+                  </div>
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  className="bg-gradient-to-r from-red-600/20 to-transparent p-6 rounded-2xl border-l-4 border-red-600"
+                >
+                  <p className="text-white font-bold italic leading-relaxed">
+                    "Com o que você economiza em apenas UM MÊS, você paga o material 17 vezes e ainda sobra dinheiro para o mercado."
+                  </p>
+                </motion.div>
+                
+                <div className="mt-12">
+                  <a 
+                    href="#oferta" 
+                    className="inline-flex items-center gap-4 bg-[#F18A51] text-white px-12 py-6 rounded-2xl font-black text-2xl shadow-2xl hover:bg-[#d97a45] transition-all transform hover:scale-105 w-full sm:w-auto justify-center"
+                  >
+                    QUERO ECONOMIZAR AGORA
+                    <ArrowRight className="w-8 h-8" />
+                  </a>
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -909,81 +976,6 @@ export default function App() {
           </div>
         </div>
       </section>
-
-      {/* Exit Intent Popup */}
-      <AnimatePresence>
-        {showExitPopup && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-sm"
-          >
-            <motion.div 
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              className="bg-white rounded-[3rem] p-8 md:p-12 max-w-2xl w-full relative overflow-hidden shadow-2xl"
-            >
-              <button 
-                onClick={() => setShowExitPopup(false)}
-                className="absolute top-6 right-6 text-slate-400 hover:text-slate-600 transition-colors"
-              >
-                <X className="w-8 h-8" />
-              </button>
-
-              <div className="text-center">
-                <div className="inline-flex items-center gap-2 bg-red-50 text-red-500 px-4 py-2 rounded-full text-sm font-black mb-6 uppercase tracking-widest">
-                  <Flame className="w-4 h-4 fill-current" />
-                  ESPERA! NÃO VÁ EMBORA AINDA...
-                </div>
-                
-                <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
-                  Você vai mesmo continuar <br />
-                  <span className="text-red-500">gastando tempo e dinheiro</span> <br />
-                  cozinhando todo dia?
-                </h2>
-
-                <p className="text-xl text-slate-600 mb-10 leading-relaxed">
-                  Liberamos uma <span className="font-black text-slate-900">condição única e secreta</span> para você não desistir da sua saúde hoje. 
-                  Sua última chance de ter o método completo por um preço ridículo.
-                </p>
-
-                <div className="bg-slate-50 rounded-3xl p-8 mb-10 border-2 border-dashed border-slate-200">
-                  <p className="text-slate-500 font-bold mb-2 uppercase tracking-widest text-sm">OFERTA DE DESPEDIDA</p>
-                  <div className="flex items-center justify-center gap-4 mb-2">
-                    <span className="text-slate-400 line-through text-2xl font-bold">R$ 97,00</span>
-                    <ArrowRight className="text-slate-300" />
-                    <span className="text-5xl md:text-7xl font-black text-[#00A859]">R$ 14,90</span>
-                  </div>
-                  <p className="text-[#00A859] font-black">PAGAMENTO ÚNICO • ACESSO IMEDIATO</p>
-                </div>
-
-                <div className="flex flex-col gap-4">
-                  <motion.a 
-                    href="https://pay.cakto.com.br/sdrs3to"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-[#00A859] text-white py-6 rounded-2xl font-black text-2xl shadow-xl shadow-green-100 transition-all uppercase flex items-center justify-center gap-3"
-                  >
-                    SIM! QUERO ESSA OFERTA AGORA
-                    <ArrowRight className="w-6 h-6" />
-                  </motion.a>
-                  <button 
-                    onClick={() => setShowExitPopup(false)}
-                    className="text-slate-400 font-bold hover:text-slate-600 transition-colors underline underline-offset-4"
-                  >
-                    Não, prefiro continuar perdendo tempo na cozinha
-                  </button>
-                </div>
-              </div>
-
-              {/* Decorative elements */}
-              <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-teal-50 rounded-full blur-3xl opacity-50 -z-10"></div>
-              <div className="absolute -top-12 -right-12 w-48 h-48 bg-orange-50 rounded-full blur-3xl opacity-50 -z-10"></div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Footer */}
       <footer className="bg-slate-900 text-white py-20 px-4">
