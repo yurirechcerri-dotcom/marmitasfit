@@ -117,7 +117,7 @@ export default function App() {
             <div className="w-10 h-10 bg-[#00B5A5] rounded-xl flex items-center justify-center">
               <UtensilsCrossed className="text-white w-6 h-6" />
             </div>
-            <span className="text-2xl font-black tracking-tighter text-slate-900">75 RECEITAS <span className="text-[#00B5A5]">FITNESS</span></span>
+            <span className="text-xl md:text-2xl font-black tracking-tighter text-slate-900">75 RECEITAS <span className="text-[#00B5A5]">FITNESS</span></span>
           </div>
           
           <div className="hidden md:flex items-center gap-8 font-bold text-sm uppercase tracking-widest">
@@ -129,10 +129,31 @@ export default function App() {
             </button>
           </div>
 
-          <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X /> : <Menu />}
+          <button className="md:hidden p-2 text-slate-900" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
+
+        {/* Mobile Menu Drawer */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-white border-t border-slate-100 overflow-hidden"
+            >
+              <div className="px-4 py-6 flex flex-col gap-4 font-bold text-slate-700">
+                <a href="#metodo" onClick={() => setIsMenuOpen(false)} className="py-2 hover:text-[#00B5A5]">O Método</a>
+                <a href="#receitas" onClick={() => setIsMenuOpen(false)} className="py-2 hover:text-[#00B5A5]">Receitas</a>
+                <a href="#oferta" onClick={() => setIsMenuOpen(false)} className="py-2 hover:text-[#00B5A5]">Oferta</a>
+                <button className="bg-[#F18A51] text-white px-6 py-4 rounded-xl mt-2 shadow-lg">
+                  Quero Começar Agora
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* Hero Section */}
@@ -151,15 +172,15 @@ export default function App() {
               className="inline-flex items-center gap-2 bg-[#e6f7f6] text-[#00B5A5] px-4 py-2 rounded-full text-sm font-black mb-6 uppercase tracking-tighter border border-teal-100 shadow-sm"
             >
               <Star className="w-4 h-4 fill-current" />
-              Receitas Saudáveis para quem quer praticidade
+              O Guia Definitivo: Praticidade e Economia
             </motion.div>
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="text-5xl md:text-7xl font-black text-slate-900 mb-6 leading-[1.1]"
+              className="text-4xl md:text-7xl font-black text-slate-900 mb-6 leading-tight md:leading-[1.1]"
             >
-              75 Receitas Fitness <br />
+              75 Receitas Fitness: <br />
               <span className="text-[#00B5A5]">Práticas e Econômicas</span>
             </motion.h1>
             <motion.p 
@@ -226,11 +247,11 @@ export default function App() {
               >
                 {/* The "Sim" Card from reference */}
                 <div className="bg-white p-4 rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] max-w-md mx-auto relative transform hover:rotate-1 transition-transform duration-500">
-                  <div className="relative rounded-[2.5rem] overflow-hidden aspect-[5/3] shadow-inner">
+                  <div className="relative rounded-[2.5rem] overflow-hidden aspect-[16/9] shadow-inner">
                     <img 
-                      src="https://i.ibb.co/jPYnRPVK/sim.jpg" 
+                      src="https://i.ibb.co/pB5NwMWy/Gemini-Generated-Image-jpc1xcjpc1xcjpc1.png" 
                       alt="Prato Saudável" 
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-bottom hover:scale-110 transition-transform duration-700"
                       referrerPolicy="no-referrer"
                       onError={(e) => {
                         e.currentTarget.src = "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1200&q=80";
@@ -242,13 +263,13 @@ export default function App() {
                     <div className="text-left">
                       <p className="text-[#00B5A5] font-black text-[10px] uppercase tracking-widest mb-1">PROMOÇÃO</p>
                       <h4 className="text-slate-800 font-black text-lg leading-tight">
-                        De R$ 97,00 por <br />
-                        <span className="text-slate-900">apenas</span>
+                        De <span className="line-through opacity-40">R$ 97,00</span> por <br />
+                        <span className="text-[#00B5A5] text-2xl">apenas</span>
                       </h4>
                     </div>
                     <div className="flex items-baseline gap-1">
                       <span className="text-xl font-black text-[#00A859]">R$</span>
-                      <span className="text-5xl font-black text-[#00A859] tracking-tighter">19,90</span>
+                      <span className="text-5xl font-black text-[#00A859] tracking-tighter">27,90</span>
                     </div>
                   </div>
                 </div>
@@ -361,7 +382,7 @@ export default function App() {
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="bg-[#F18A51] rounded-full py-4 px-6 md:py-6 md:px-10 text-center text-white shadow-xl max-w-xl mx-auto"
+            className="bg-[#F18A51] rounded-3xl md:rounded-full py-6 px-8 md:py-6 md:px-10 text-center text-white shadow-xl max-w-xl mx-auto"
           >
             <h3 className="text-xl md:text-2xl font-bold mb-1">Isso não é culpa sua.</h3>
             <p className="text-sm md:text-base font-medium opacity-95">
@@ -376,10 +397,10 @@ export default function App() {
         <div className="absolute top-1/2 left-0 w-64 h-64 bg-[#00B5A5]/5 rounded-full blur-3xl -ml-32"></div>
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-6xl font-black text-[#00A859] leading-tight mb-4">
+            <h2 className="text-3xl md:text-6xl font-black text-[#00A859] leading-tight mb-4">
               Por que esse <span className="text-[#F18A51]">material é indispensável</span> <br /> para você?
             </h2>
-            <p className="text-xl text-slate-500 font-bold max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-slate-500 font-bold max-w-2xl mx-auto">
               Entenda como ele vai transformar sua relação com a comida e seu tempo.
             </p>
           </div>
@@ -551,7 +572,7 @@ export default function App() {
                 <PlayCircle className="w-4 h-4" />
                 O Fim das Receitas Chatas
               </div>
-              <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight">
+              <h2 className="text-3xl md:text-6xl font-black mb-8 leading-tight">
                 Sem receitas chatas <br />
                 de 15 minutos...
               </h2>
@@ -612,7 +633,7 @@ export default function App() {
       {/* Recipes Preview */}
       <section id="receitas" className="py-24 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-6xl font-black text-center mb-16">
+          <h2 className="text-3xl md:text-6xl font-black text-center mb-16">
             O que você vai <span className="text-[#00B5A5]">Receber:</span>
           </h2>
           
@@ -863,7 +884,7 @@ export default function App() {
                     ease: "easeInOut"
                   }}
                 >
-                  <p className="text-6xl font-black text-[#00B5A5] mb-6">R$ 19,90</p>
+                  <p className="text-6xl font-black text-[#00B5A5] mb-6">R$ 27,90</p>
                 </motion.div>
                 <motion.a 
                   href="https://pay.cakto.com.br/3fciqct_812449"
@@ -978,44 +999,47 @@ export default function App() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-white py-20 px-4">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-16">
-          <div className="col-span-2">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 bg-[#00B5A5] rounded-xl flex items-center justify-center">
-                <UtensilsCrossed className="text-white w-6 h-6" />
+      <footer className="bg-[#0f172a] text-white py-24 px-4 border-t border-slate-800">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-12 h-12 bg-[#00B5A5] rounded-2xl flex items-center justify-center shadow-lg shadow-teal-900/20">
+                <UtensilsCrossed className="text-white w-7 h-7" />
               </div>
               <span className="text-2xl font-black tracking-tighter">75 RECEITAS <span className="text-[#00B5A5]">FITNESS</span></span>
             </div>
             <p className="text-slate-400 text-lg leading-relaxed max-w-md">
-              Transformando vidas através da alimentação prática e acessível. Junte-se a mais de 12 mil pessoas que mudaram sua rotina.
+              Transformando vidas através da alimentação prática e acessível. Junte-se a mais de 12 mil pessoas que mudaram sua rotina e conquistaram o corpo dos sonhos.
             </p>
           </div>
           <div>
-            <h4 className="font-black text-xl mb-6">Links Úteis</h4>
-            <ul className="space-y-4 text-slate-400 font-bold">
-              <li><a href="#" className="hover:text-[#00B5A5] transition-colors">Termos de Uso</a></li>
-              <li><a href="#" className="hover:text-[#00B5A5] transition-colors">Privacidade</a></li>
-              <li><a href="#" className="hover:text-[#00B5A5] transition-colors">Suporte</a></li>
+            <h4 className="font-black text-xl mb-8 text-white">Links Úteis</h4>
+            <ul className="space-y-5 text-slate-400 font-bold">
+              <li><a href="#" className="hover:text-[#00B5A5] transition-colors flex items-center gap-2">Termos de Uso</a></li>
+              <li><a href="#" className="hover:text-[#00B5A5] transition-colors flex items-center gap-2">Privacidade</a></li>
+              <li><a href="#" className="hover:text-[#00B5A5] transition-colors flex items-center gap-2">Suporte</a></li>
             </ul>
           </div>
           <div>
-            <h4 className="font-black text-xl mb-6">Redes Sociais</h4>
-            <div className="flex gap-4">
-              <a href="#" className="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center hover:bg-[#00B5A5] transition-all">
-                <Instagram className="w-6 h-6" />
+            <h4 className="font-black text-xl mb-8 text-white">Redes Sociais</h4>
+            <div className="flex gap-5">
+              <a href="#" className="w-14 h-14 bg-slate-800/50 rounded-2xl flex items-center justify-center hover:bg-[#00B5A5] hover:scale-110 transition-all border border-slate-700/50">
+                <Instagram className="w-7 h-7" />
               </a>
-              <a href="#" className="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center hover:bg-[#00B5A5] transition-all">
-                <Facebook className="w-6 h-6" />
+              <a href="#" className="w-14 h-14 bg-slate-800/50 rounded-2xl flex items-center justify-center hover:bg-[#00B5A5] hover:scale-110 transition-all border border-slate-700/50">
+                <Facebook className="w-7 h-7" />
               </a>
-              <a href="#" className="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center hover:bg-[#00B5A5] transition-all">
-                <Youtube className="w-6 h-6" />
+              <a href="#" className="w-14 h-14 bg-slate-800/50 rounded-2xl flex items-center justify-center hover:bg-[#00B5A5] hover:scale-110 transition-all border border-slate-700/50">
+                <Youtube className="w-7 h-7" />
               </a>
             </div>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto pt-8 border-t border-slate-800 text-center text-slate-500 text-sm font-bold">
-          <p>© 2024 75 Receitas Fitness. Todos os direitos reservados. Este site não é afiliado ao Facebook ou Google.</p>
+        <div className="max-w-7xl mx-auto pt-10 border-t border-slate-800/50 text-center">
+          <p className="text-slate-500 text-sm font-medium leading-relaxed max-w-2xl mx-auto">
+            © 2024 75 Receitas Fitness. Todos os direitos reservados. <br className="md:hidden" />
+            Este site não é afiliado ao Facebook ou Google.
+          </p>
         </div>
       </footer>
 
