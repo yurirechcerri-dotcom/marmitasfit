@@ -950,7 +950,7 @@ export default function App() {
                     ease: "easeInOut"
                   }}
                 >
-                  <p className="text-7xl font-black text-[#F18A51] mb-6 drop-shadow-md">R$ 19,90</p>
+                  <p className="text-7xl font-black text-[#F18A51] mb-6 drop-shadow-md">R$ 27,90</p>
                 </motion.div>
                 <motion.a 
                   href="https://pay.cakto.com.br/7gyurer"
