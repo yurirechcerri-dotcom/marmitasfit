@@ -269,7 +269,7 @@ export default function App() {
                     </div>
                     <div className="flex items-baseline gap-1">
                       <span className="text-xl font-black text-[#00A859]">R$</span>
-                      <span className="text-5xl font-black text-[#00A859] tracking-tighter">27,90</span>
+                      <span className="text-5xl font-black text-[#00A859] tracking-tighter">19,90</span>
                     </div>
                   </div>
                 </div>
@@ -529,7 +529,7 @@ export default function App() {
                       <h4 className="text-2xl font-black text-white">75 Receitas Fit</h4>
                     </div>
                     <div className="text-right">
-                      <p className="text-[#00B5A5] text-3xl font-black">R$ 27,90</p>
+                      <p className="text-[#00B5A5] text-3xl font-black">R$ 19,90</p>
                       <p className="text-slate-500 text-xs font-bold">investimento único</p>
                     </div>
                   </div>
@@ -884,7 +884,7 @@ export default function App() {
                     ease: "easeInOut"
                   }}
                 >
-                  <p className="text-6xl font-black text-[#00B5A5] mb-6">R$ 27,90</p>
+                  <p className="text-6xl font-black text-[#00B5A5] mb-6">R$ 19,90</p>
                 </motion.div>
                 <motion.a 
                   href="https://pay.cakto.com.br/3fciqct_812449"
@@ -950,7 +950,7 @@ export default function App() {
                     ease: "easeInOut"
                   }}
                 >
-                  <p className="text-7xl font-black text-[#F18A51] mb-6 drop-shadow-md">R$ 27,90</p>
+                  <p className="text-7xl font-black text-[#F18A51] mb-6 drop-shadow-md">R$ 19,90</p>
                 </motion.div>
                 <motion.a 
                   href="https://pay.cakto.com.br/7gyurer"
