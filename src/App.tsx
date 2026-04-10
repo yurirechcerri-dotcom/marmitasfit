@@ -111,16 +111,16 @@ export default function App() {
       </div>
 
       {/* Navigation */}
-      <nav className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-md py-3' : 'bg-transparent py-5'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled || isMenuOpen ? 'bg-white shadow-md py-3' : 'bg-white/80 md:bg-transparent py-5'} border-b border-slate-100 md:border-none`}>
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-[#00B5A5] rounded-xl flex items-center justify-center">
-              <UtensilsCrossed className="text-white w-6 h-6" />
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-[#00B5A5] rounded-lg md:rounded-xl flex items-center justify-center">
+              <UtensilsCrossed className="text-white w-5 h-5 md:w-6 md:h-6" />
             </div>
-            <span className="text-xl md:text-2xl font-black tracking-tighter text-slate-900">75 RECEITAS <span className="text-[#00B5A5]">FITNESS</span></span>
+            <span className="text-lg md:text-2xl font-black tracking-tighter text-slate-900">75 RECEITAS <span className="text-[#00B5A5]">FITNESS</span></span>
           </div>
           
-          <div className="hidden md:flex items-center gap-8 font-bold text-sm uppercase tracking-widest">
+          <div className="hidden md:flex items-center gap-8 font-bold text-sm uppercase tracking-widest text-slate-900">
             <a href="#metodo" className="hover:text-[#00B5A5] transition-colors">O Método</a>
             <a href="#receitas" className="hover:text-[#00B5A5] transition-colors">Receitas</a>
             <a href="#oferta" className="hover:text-[#00B5A5] transition-colors">Oferta</a>
@@ -141,13 +141,13 @@ export default function App() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-white border-t border-slate-100 overflow-hidden"
+              className="md:hidden bg-white border-t border-slate-100 overflow-hidden shadow-xl"
             >
-              <div className="px-4 py-6 flex flex-col gap-4 font-bold text-slate-700">
-                <a href="#metodo" onClick={() => setIsMenuOpen(false)} className="py-2 hover:text-[#00B5A5]">O Método</a>
-                <a href="#receitas" onClick={() => setIsMenuOpen(false)} className="py-2 hover:text-[#00B5A5]">Receitas</a>
-                <a href="#oferta" onClick={() => setIsMenuOpen(false)} className="py-2 hover:text-[#00B5A5]">Oferta</a>
-                <button className="bg-[#F18A51] text-white px-6 py-4 rounded-xl mt-2 shadow-lg">
+              <div className="px-4 py-8 flex flex-col gap-6 font-bold text-slate-800 text-center">
+                <a href="#metodo" onClick={() => setIsMenuOpen(false)} className="text-xl hover:text-[#00B5A5] transition-colors">O Método</a>
+                <a href="#receitas" onClick={() => setIsMenuOpen(false)} className="text-xl hover:text-[#00B5A5] transition-colors">Receitas</a>
+                <a href="#oferta" onClick={() => setIsMenuOpen(false)} className="text-xl hover:text-[#00B5A5] transition-colors">Oferta</a>
+                <button className="bg-[#F18A51] text-white px-8 py-5 rounded-2xl mt-4 shadow-xl shadow-orange-100 text-lg">
                   Quero Começar Agora
                 </button>
               </div>
@@ -157,7 +157,7 @@ export default function App() {
       </nav>
 
       {/* Hero Section */}
-      <header className="relative pt-12 pb-24 px-4 overflow-hidden">
+      <header className="relative pt-32 md:pt-40 pb-24 px-4 overflow-hidden bg-white">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
