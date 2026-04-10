@@ -368,13 +368,34 @@ export default function App() {
               </svg>
             </div>
 
-            {/* Mobile List */}
-            <div className="md:hidden flex flex-col gap-6 mt-8 text-center">
-              <span className="font-bold text-slate-800 text-lg">chega em casa exausta</span>
-              <span className="font-bold text-slate-800 text-lg">não tem nada pronto pra comer</span>
-              <span className="font-bold text-slate-800 text-lg">faz um lanche rápido ou pede um Ifood</span>
-              <span className="font-bold text-slate-800 text-lg">não consegue ter uma alimentação saudável</span>
-              <span className="font-bold text-slate-800 text-lg">vive uma eterna luta contra a balança</span>
+            {/* Mobile Timeline View */}
+            <div className="md:hidden flex flex-col gap-0 mt-12 w-full max-w-sm mx-auto">
+              {[
+                { text: "chega em casa exausta", icon: <Clock className="w-6 h-6" /> },
+                { text: "não tem nada pronto pra comer", icon: <UtensilsCrossed className="w-6 h-6" /> },
+                { text: "faz um lanche rápido ou pede um Ifood", icon: <ShoppingBasket className="w-6 h-6" /> },
+                { text: "não consegue ter uma alimentação saudável", icon: <X className="w-6 h-6" /> },
+                { text: "vive uma eterna luta contra a balança", icon: <TrendingDown className="w-6 h-6" /> }
+              ].map((item, i, arr) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="flex items-start gap-6 relative pb-12 last:pb-0"
+                >
+                  {i !== arr.length - 1 && (
+                    <div className="absolute left-[23px] top-12 bottom-0 w-1 bg-gradient-to-b from-slate-200 to-transparent rounded-full" />
+                  )}
+                  <div className="w-12 h-12 rounded-2xl bg-white shadow-xl flex items-center justify-center shrink-0 z-10 border border-slate-100 text-[#F18A51]">
+                    {item.icon}
+                  </div>
+                  <div className="pt-2">
+                    <p className="font-black text-slate-800 text-xl leading-tight tracking-tight">{item.text}</p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
 
