@@ -105,59 +105,62 @@ export default function App() {
         style={{ scaleX }}
       />
 
-      {/* Top Banner */}
-      <div className="bg-[#00B5A5] text-white py-2 text-center text-xs md:text-sm font-bold px-4">
-        🔥 Oferta Exclusiva: 75% de Desconto Somente Hoje!
-      </div>
+      {/* Header & Navigation */}
+      <header className="fixed top-0 left-0 right-0 z-50">
+        {/* Top Banner */}
+        <div className="bg-[#00B5A5] text-white py-2 text-center text-xs md:text-sm font-bold px-4 relative z-[60]">
+          🔥 Oferta Exclusiva: 75% de Desconto Somente Hoje!
+        </div>
 
-      {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled || isMenuOpen ? 'bg-white shadow-md py-3' : 'bg-white/80 md:bg-transparent py-5'} border-b border-slate-100 md:border-none`}>
-        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-[#00B5A5] rounded-lg md:rounded-xl flex items-center justify-center">
-              <UtensilsCrossed className="text-white w-5 h-5 md:w-6 md:h-6" />
+        {/* Navigation */}
+        <nav className={`transition-all duration-300 ${scrolled || isMenuOpen ? 'bg-white shadow-md py-3' : 'bg-white/90 md:bg-transparent py-5'} border-b border-slate-100 md:border-none`}>
+          <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-[#00B5A5] rounded-lg md:rounded-xl flex items-center justify-center">
+                <UtensilsCrossed className="text-white w-5 h-5 md:w-6 md:h-6" />
+              </div>
+              <span className="text-lg md:text-2xl font-black tracking-tighter text-slate-900">75 RECEITAS <span className="text-[#00B5A5]">FITNESS</span></span>
             </div>
-            <span className="text-lg md:text-2xl font-black tracking-tighter text-slate-900">75 RECEITAS <span className="text-[#00B5A5]">FITNESS</span></span>
-          </div>
-          
-          <div className="hidden md:flex items-center gap-8 font-bold text-sm uppercase tracking-widest text-slate-900">
-            <a href="#metodo" className="hover:text-[#00B5A5] transition-colors">O Método</a>
-            <a href="#receitas" className="hover:text-[#00B5A5] transition-colors">Receitas</a>
-            <a href="#oferta" className="hover:text-[#00B5A5] transition-colors">Oferta</a>
-            <button className="bg-[#F18A51] text-white px-6 py-2.5 rounded-full hover:bg-[#d97a45] transition-all shadow-lg shadow-orange-200">
-              Quero Começar
+            
+            <div className="hidden md:flex items-center gap-8 font-bold text-sm uppercase tracking-widest text-slate-900">
+              <a href="#metodo" className="hover:text-[#00B5A5] transition-colors">O Método</a>
+              <a href="#receitas" className="hover:text-[#00B5A5] transition-colors">Receitas</a>
+              <a href="#oferta" className="hover:text-[#00B5A5] transition-colors">Oferta</a>
+              <button className="bg-[#F18A51] text-white px-6 py-2.5 rounded-full hover:bg-[#d97a45] transition-all shadow-lg shadow-orange-200">
+                Quero Começar
+              </button>
+            </div>
+
+            <button className="md:hidden p-2 text-slate-900" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
 
-          <button className="md:hidden p-2 text-slate-900" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-
-        {/* Mobile Menu Drawer */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-white border-t border-slate-100 overflow-hidden shadow-xl"
-            >
-              <div className="px-4 py-8 flex flex-col gap-6 font-bold text-slate-800 text-center">
-                <a href="#metodo" onClick={() => setIsMenuOpen(false)} className="text-xl hover:text-[#00B5A5] transition-colors">O Método</a>
-                <a href="#receitas" onClick={() => setIsMenuOpen(false)} className="text-xl hover:text-[#00B5A5] transition-colors">Receitas</a>
-                <a href="#oferta" onClick={() => setIsMenuOpen(false)} className="text-xl hover:text-[#00B5A5] transition-colors">Oferta</a>
-                <button className="bg-[#F18A51] text-white px-8 py-5 rounded-2xl mt-4 shadow-xl shadow-orange-100 text-lg">
-                  Quero Começar Agora
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
+          {/* Mobile Menu Drawer */}
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="md:hidden bg-white border-t border-slate-100 overflow-hidden shadow-xl"
+              >
+                <div className="px-4 py-8 flex flex-col gap-6 font-bold text-slate-800 text-center">
+                  <a href="#metodo" onClick={() => setIsMenuOpen(false)} className="text-xl hover:text-[#00B5A5] transition-colors">O Método</a>
+                  <a href="#receitas" onClick={() => setIsMenuOpen(false)} className="text-xl hover:text-[#00B5A5] transition-colors">Receitas</a>
+                  <a href="#oferta" onClick={() => setIsMenuOpen(false)} className="text-xl hover:text-[#00B5A5] transition-colors">Oferta</a>
+                  <button className="bg-[#F18A51] text-white px-8 py-5 rounded-2xl mt-4 shadow-xl shadow-orange-100 text-lg">
+                    Quero Começar Agora
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </nav>
+      </header>
 
       {/* Hero Section */}
-      <header className="relative pt-32 md:pt-40 pb-24 px-4 overflow-hidden bg-white">
+      <section className="relative pt-40 md:pt-52 pb-24 px-4 overflow-hidden bg-white">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
@@ -279,7 +282,7 @@ export default function App() {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-[#00B5A5]/20 to-[#F18A51]/20 rounded-full blur-[100px] -z-10"></div>
             </div>
           </div>
-        </header>
+        </section>
 
       {/* Ciclo Vicioso Section */}
       <section id="metodo" className="py-24 bg-[#F8F8F8] px-4 relative overflow-hidden">
