@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import { 
   CheckCircle2, 
   Timer, 
@@ -47,11 +47,29 @@ export default function App() {
   });
 
   useEffect(() => {
+    // UTMify Pixel Integration
+    (window as any).pixelId = "69dce908439244d5da9a92b8";
+    const script = document.createElement("script");
+    script.setAttribute("async", "");
+    script.setAttribute("defer", "");
+    script.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+    document.head.appendChild(script);
+
+    // UTMify UTM Tracking Script
+    const utmScript = document.createElement("script");
+    utmScript.setAttribute("async", "");
+    utmScript.setAttribute("defer", "");
+    utmScript.setAttribute("src", "https://cdn.utmify.com.br/scripts/utms/latest.js");
+    utmScript.setAttribute("data-utmify-prevent-xcod-sck", "");
+    utmScript.setAttribute("data-utmify-prevent-subids", "");
+    document.head.appendChild(utmScript);
+
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      // Optional: cleanup script if needed, but usually pixels stay
     };
   }, []);
 
